@@ -1,0 +1,41 @@
+<body>
+
+  <header>
+    <div class="room-title">
+      Room Name: <small id="roomName">[dummy_value]</small>
+    </div>
+  </header>
+
+  <main>
+    <div class="table-wrap">
+      <table aria-label="Attendees">
+        <thead>
+          <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Connect</th>
+            <th scope="col">PNG</th>
+          </tr>
+        </thead>
+        <tbody id="rows">
+          <!-- Rows are injected here -->
+        </tbody>
+      </table>
+      <div id="emptyState" class="empty" hidden>No attendees yet.</div>
+    </div>
+  </main>
+
+  <!-- Optional: a template used for fast row creation -->
+  <template id="rowTemplate">
+    <tr>
+      <td class="fn"></td>
+      <td class="ln"></td>
+      <td>
+        <button class="connect-btn" type="button">Connect</button>
+      </td>
+      <td>
+        <img class="avatar" alt="PNG" />
+      </td>
+    </tr>
+  </template>
+</body>
