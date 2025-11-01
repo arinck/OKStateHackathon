@@ -1,0 +1,250 @@
+/* Grab the dark color-scheme from bootstrap for convenience and consistency through all of the web pages. */
+:root {
+  color-scheme: dark;
+  --bs-body-color: #dee2e6;
+  --bs-body-color-rgb: 222, 226, 230;
+  --bs-body-bg: #212529;
+  --bs-body-bg-rgb: 33, 37, 41;
+  --bs-emphasis-color: #fff;
+  --bs-emphasis-color-rgb: 255, 255, 255;
+  --bs-secondary-color: rgba(222, 226, 230, 0.75);
+  --bs-secondary-color-rgb: 222, 226, 230;
+  --bs-secondary-bg: #343a40;
+  --bs-secondary-bg-rgb: 52, 58, 64;
+  --bs-tertiary-color: rgba(222, 226, 230, 0.5);
+  --bs-tertiary-color-rgb: 222, 226, 230;
+  --bs-tertiary-bg: #2b3035;
+  --bs-tertiary-bg-rgb: 43, 48, 53;
+  --bs-primary-text-emphasis: #6ea8fe;
+  --bs-secondary-text-emphasis: #a7acb1;
+  --bs-success-text-emphasis: #75b798;
+  --bs-info-text-emphasis: #6edff6;
+  --bs-warning-text-emphasis: #ffda6a;
+  --bs-danger-text-emphasis: #ea868f;
+  --bs-light-text-emphasis: #f8f9fa;
+  --bs-dark-text-emphasis: #dee2e6;
+  --bs-primary-bg-subtle: #031633;
+  --bs-secondary-bg-subtle: #161719;
+  --bs-success-bg-subtle: #051b11;
+  --bs-info-bg-subtle: #032830;
+  --bs-warning-bg-subtle: #332701;
+  --bs-danger-bg-subtle: #2c0b0e;
+  --bs-light-bg-subtle: #343a40;
+  --bs-dark-bg-subtle: #1a1d20;
+  --bs-primary-border-subtle: #084298;
+  --bs-secondary-border-subtle: #41464b;
+  --bs-success-border-subtle: #0f5132;
+  --bs-info-border-subtle: #087990;
+  --bs-warning-border-subtle: #997404;
+  --bs-danger-border-subtle: #842029;
+  --bs-light-border-subtle: #495057;
+  --bs-dark-border-subtle: #343a40;
+  --bs-heading-color: inherit;
+  --bs-link-color: #6ea8fe;
+  --bs-link-hover-color: #8bb9fe;
+  --bs-link-color-rgb: 110, 168, 254;
+  --bs-link-hover-color-rgb: 139, 185, 254;
+  --bs-code-color: #e685b5;
+  --bs-highlight-color: #dee2e6;
+  --bs-highlight-bg: #664d03;
+  --bs-border-color: #495057;
+  --bs-border-color-translucent: rgba(255, 255, 255, 0.15);
+  --bs-form-valid-color: #75b798;
+  --bs-form-valid-border-color: #75b798;
+  --bs-form-invalid-color: #ea868f;
+  --bs-form-invalid-border-color: #ea868f;
+}
+
+/* Large screen sizes */
+@media (min-width: 992px) {
+  #navbarSupportedContent .middle a::after {
+    content: '|';
+    padding-left: 2em;
+    padding-right: 1em;
+  }
+}
+
+/* Small screen sizes */
+@media (max-width: 991px) {
+  .center-buttons {
+    text-align: center
+  }
+}
+
+/* Hero image style, can be used for other images later on. */
+.hero img {
+  border: 16px solid var(--bs-border-color);
+  border-radius: 32px;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+}
+
+.about-kryptos-header {
+  background-image: url('../../images/nodes_blue.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 350px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+.scaled-image {
+  width: auto;
+  max-width: 300px;
+  height: auto;
+  display: block;
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.grandma-container {
+  margin-top: 50px;
+  padding: 1vw;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  padding-right: 10vw;
+}
+
+.full-width-image {
+  width: 90vw;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hacker-image {
+  width: 80vw;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blender-image {
+  width: 50vw;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+}
+
+.about-page-body {
+  max-width: 90vw;    /* limit content width */
+  margin: 0 auto;       /* center it (creates side gutters) */
+  padding: 0 5vw;       /* optional extra padding on small screens */
+  box-sizing: border-box;
+}
+
+.about-page-body h2 {
+  font-size: 1.5rem;   /* larger font size for better readability */
+  line-height: 1.6;    /* improve line spacing */
+  margin-bottom: 1.5rem; /* space between paragraphs */
+  color: var(--bs-body-color); /* ensure text color matches dark theme */
+}
+
+.about-page-body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Some styles for the vault page */
+/* Page section */
+.vault-wrap {
+  max-width: 1100px;
+  margin: 2rem auto;
+}
+.vault-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .75rem;
+}
+
+/* Scroll area */
+.vault-table-wrap {
+  border-radius: .1rem;
+  overflow: hidden;
+  background: var(--bs-body-bg, #1f1f1f);
+  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+}
+.vault-scroll {
+  max-height: 300px;
+  overflow: auto;
+}
+thead.sticky-top th {
+  position: sticky; top: 0; z-index: 1;
+}
+
+/* Overlay modal surface (layout only; hidden by default) */
+.vault-overlay {
+  position: fixed; inset: 0;
+  display: none;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,.55);
+  z-index: 2000;
+  padding: 2rem;
+}
+.vault-overlay.is-open { display: flex; }
+
+.vault-modal {
+  width: min(560px, 92vw);
+  border-radius: 1rem;
+  background: var(--bs-body-bg, #111827);
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
+  padding: 1.25rem;
+}
+.vault-modal h3 { margin-bottom: .5rem; }
+.vault-modal .form-label { font-weight: 600; }
+.vault-modal .actions {
+  display: flex; justify-content: flex-end; gap: .5rem; margin-top: 1rem;
+}
+
+/* Row action context menu */
+#rowActionMenu {
+  position: absolute;
+  z-index: 3000;
+  display: none;
+  min-width: 160px;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  background: var(--bs-body-bg, #fff);
+}
+#rowActionMenu.show {
+  display: block;
+}
+#rowActionMenu button {
+  width: 100%;
+  margin-bottom: 6px;
+}
+#rowActionMenu button:last-child {
+  margin-bottom: 0;
+}
