@@ -40,8 +40,10 @@ def register_routes(app):
     @app.route('/login_linked')
     def login():
         room_id = request.args.get('roomId')
-        if room_id:
-            session['room_id'] = room_id
+        if not room_exists(room_id):
+            abort(404, description="Room not found")
+
+        session['room_id'] = room_id
         linkedin = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=scope)
         authorization_url, state = linkedin.authorization_url(authorization_base_url)
         session['oauth_state'] = state
@@ -72,9 +74,13 @@ def register_routes(app):
         session['oauth_token'] = token_json
 
         linkedin = OAuth2Session(client_id, token=token_json)
-        _ = linkedin.get('https://api.linkedin.com/v2/userinfo').json()
+        r = linkedin.get('https://api.linkedin.com/v2/userinfo')
+        user_info = r.json()
 
-        room_id = session.get('room_id')
+        room_id = session.get('room_id')  # Retrieve roomId here
+        print("Hello", user_info.get('email'))
+        print("Room ID:", room_id)
+        print(user_info.get('email'))
         return redirect(url_for('room', room_id=room_id, viewer='scanner'))
 
     @app.post('/api/signup')

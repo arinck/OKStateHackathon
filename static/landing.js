@@ -68,6 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
   joinBtn.addEventListener("click", () => {
     const roomID = (joinIdInput.value || "").trim();
     if (!roomID) return alert("Enter a Room ID first");
-    location.href = `/room?room_id=${encodeURIComponent(roomID)}&viewer=guest`;
+    location.href = `/login_linked?roomId=${roomID}`;
   });
 });

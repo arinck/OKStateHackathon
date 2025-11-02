@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Generate a new QR code using QRCode.js
         new QRCode(qrContainer, {
-            text: "https://example.com", // Replace with your target URL or data
+            text: `http://127.0.0.1:5000/login_linked?roomId=${joinIdInput.value}`, // Replace with your target URL or data
             width: 200,
             height: 200,
         });
@@ -33,6 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const enteredId = joinIdInput.value.trim();
         if (enteredId) {
             console.log("Join ID entered:", enteredId);
+            window.location.href = `/login_linked?roomId=${enteredId}`;
+
         } else {
             console.log("No ID entered.");
         }
