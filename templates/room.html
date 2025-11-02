@@ -1,15 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Room · REACH{% endblock %}
 
-{% block content %}
-<header class="text-center mb-4">
-  <div class="p-3 rounded-3 border" style="background: var(--bs-secondary-bg-subtle)">
-    <h2 class="mb-1" style="color: var(--bs-primary-text-emphasis)">Room Details</h2>
-    <div class="text-secondary">
-      <strong>Room Name:</strong>
-      <span id="roomNameSpan" class="fw-normal">{{ room_name or "[dummy_value]" }}</span>
-      | <strong>Room ID:</strong> <span class="fw-normal">{{ room_id }}</span> |
-      <strong>Viewer:</strong> <span class="fw-normal">{{ viewer }}</span>
+  <header>
+    <div class="room-title">
+      Room Name: <small id="roomName">{{room_name}}</small>
     </div>
   </div>
 </header>
