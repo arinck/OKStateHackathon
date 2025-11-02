@@ -283,3 +283,138 @@ thead.sticky-top th {
   margin: 0 auto;
   display: block;
 }
+
+/* Fix connect column alignment on iPhone */
+@media (max-width: 576px) {
+  th.text-center, td.text-center {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+
+  /* Rotate header back to horizontal */
+  thead th.text-center {
+    white-space: nowrap;
+    writing-mode: horizontal-tb !important;
+    transform: none !important;
+  }
+
+  /* Make connect button full-width on small screens */
+  td.text-center a.btn {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  /* Slightly shrink button padding */
+  .btn-sm {
+    padding: .3rem .6rem;
+    font-size: .85rem;
+  }
+
+  /* Table spacing fix */
+  .table th, .table td {
+    vertical-align: middle;
+  }
+}
+
+/* iPhone fix: force Connect button text horizontal and centered */
+@media (max-width: 576px) {
+  /* kill any vertical writing-mode or rotation that leaks into the cell */
+  td.text-center,
+  td.text-center * {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    transform: none !important;
+  }
+
+  /* make the button render normally and fit the column */
+  td.text-center a.btn {
+    display: inline-block;
+    white-space: nowrap;
+    width: 100%;
+    max-width: 120px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* keep the Connect column a sane width */
+  thead th:nth-child(4),
+  tbody td:nth-child(4) {
+    width: 120px !important;
+  }
+}
+
+/* Fix connect button rendering on iPhones */
+@media (max-width: 576px) {
+  td.text-center,
+  td.text-center * {
+    writing-mode: horizontal-tb !important;
+    transform: none !important;
+    white-space: nowrap !important;
+  }
+
+  td.text-center {
+    vertical-align: middle !important;
+    text-align: center !important;
+  }
+
+  td.text-center a.btn {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    text-align: center;
+    line-height: 1.2;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  /* Prevent narrow column squeeze */
+  thead th.text-center {
+    writing-mode: horizontal-tb !important;
+    transform: none !important;
+    width: 100px !important;
+  }
+
+  .table th,
+  .table td {
+    vertical-align: middle;
+  }
+}
+
+/* Fix row background clipping on small screens */
+@media (max-width: 576px) {
+  .table {
+    width: 100% !important;
+    table-layout: auto !important;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table tr {
+    display: table-row;
+    width: 100%;
+  }
+
+  .table td, .table th {
+    background-color: inherit !important;
+    width: auto;
+  }
+
+  /* force row to span full width visually */
+  tbody tr {
+    display: table-row;
+  }
+
+  /* minor alignment tweak */
+  td.text-center {
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+
