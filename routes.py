@@ -60,7 +60,6 @@ def register_routes(app):
         print(user_info.get('email'))
         return redirect(url_for('room', room_id=room_id, viewer='scanner'))
 
-    # ---------- API ROUTES ----------
     @app.post('/api/signup')
     def api_signup():
         data = request.get_json(silent=True) or request.form or {}

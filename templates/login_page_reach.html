@@ -1,13 +1,12 @@
-{% extends "index.html" %}
-{% block title %}Sign Up · REACH{% endblock %}
-
+{% extends "base.html" %}
+{% block title %}Login · REACH{% endblock %}
 {% block content %}
 <div class="container py-4">
-  <form id="signupForm" class="col-lg-5 col-md-6 col-sm-8 mx-auto">
-    <h2 class="text-center mb-3">Create Account</h2>
+  <form id="loginForm" class="col-lg-5 col-md-6 col-sm-8 mx-auto">
+    <h2 class="text-center mb-3">Sign In</h2>
 
-    <div id="signupError" class="alert alert-danger d-none" role="alert"></div>
-    <div id="signupOK" class="alert alert-success d-none" role="alert"></div>
+    <div id="loginError" class="alert alert-danger d-none" role="alert"></div>
+    <div id="loginOK" class="alert alert-success d-none" role="alert"></div>
 
     <div class="mb-3">
       <label for="email" class="form-label">Email address</label>
@@ -16,13 +15,12 @@
 
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input name="password" id="password" type="password" minlength="6" class="form-control" required autocomplete="new-password" />
+      <input name="password" id="password" type="password" minlength="6" class="form-control" required autocomplete="current-password" />
     </div>
 
-    <button type="submit" class="btn btn-outline-primary w-100">Sign Up</button>
+    <button type="submit" class="btn btn-outline-primary w-100">Sign In</button>
   </form>
 </div>
 
-<!-- external JS -->
-<script type="module" src="{{ url_for('static', filename='signup_page_reach.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='login_page_reach.js') }}"></script>
 {% endblock %}
