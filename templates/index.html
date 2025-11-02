@@ -1,28 +1,19 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>REACH</title>
+{% extends "base.html" %}
+{% block title %}Home · REACH{% endblock %}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
-  </head>
-  <body class="container py-4">
+{% block content %}
+  <!-- Row 1 -->
+  <div class="row mb-3">
+    <input type="text" id="roomName" placeholder="Enter Room Name" class="form-control w-auto d-inline-block" />
+    <button id="createBtn" class="btn btn-outline-primary ms-2">Create Room</button>
+  </div>
 
-    <!-- Shared header/nav lives here -->
-    <nav class="mb-4 d-flex gap-3">
-      <a href="{{ url_for('index') }}">Home</a>
-      <a href="{{ url_for('login') }}">Login</a>
-      <a href="{{ url_for('room') }}">Room</a>
-    </nav>
+  <!-- Row 2 -->
+  <div class="row">
+    <input type="text" id="joinId" placeholder="Enter Room ID" class="form-control w-auto d-inline-block" />
+    <button id="joinBtn" class="btn btn-outline-secondary ms-2">Join From ID</button>
+  </div>
 
-    <!-- Route-specific body -->
-    {% block content %}{% endblock %}
-
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <script src="{{ url_for('static', filename='landing.js') }}"></script>
-  </body>
-</html>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="{{ url_for('static', filename='landing.js') }}"></script>
+{% endblock %}
