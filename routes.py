@@ -10,6 +10,7 @@ from db_accessor import (
     validate_user,
     insert_room,
     room_exists,
+    insert_entry
 )
 
 def register_routes(app):
@@ -81,6 +82,13 @@ def register_routes(app):
         print("Hello", user_info.get('email'))
         print("Room ID:", room_id)
         print(user_info.get('email'))
+
+        firstname = user_info.get('given_name')
+        lastname = user_info.get('family_name')
+        url_image = user_info.get('picture')
+
+
+        insert_entry(firstname, lastname, url_image, room_id)
         return redirect(url_for('room', room_id=room_id, viewer='scanner'))
 
     @app.post('/api/signup')
