@@ -32,6 +32,14 @@ def register_routes(app):
         session['oauth_state'] = state
         return redirect(authorization_url)
 
+    @app.route('/login_reach')
+    def login_reach():
+        return render_template('login_page_reach.html')
+
+    @app.route('/signup_reach')
+    def signup_reach():
+        return render_template('signup_page_reach.html')
+
     @app.route('/callback')
     def callback():
         # Extract the authorization code from the query string
