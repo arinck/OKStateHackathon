@@ -7,7 +7,7 @@ def register_routes(app):
     # Route for the homepage (index)
     @app.route('/')
     def index():
-        return render_template('index.html')
+        return render_template('home.html')
     
     @app.route('/landing')
     def landing():
