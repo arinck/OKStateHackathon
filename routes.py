@@ -35,6 +35,7 @@ def register_routes(app):
         return render_template(
             'room.html',
             room_id=room_id,
+            password = room_pawword,
             viewer=viewer,
             users=users,
             room_name=room_name
