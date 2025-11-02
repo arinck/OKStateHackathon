@@ -1,22 +1,28 @@
 {% extends "index.html" %}
+{% block title %}Sign Up · REACH{% endblock %}
+
 {% block content %}
 <div class="container py-4">
-  <form class="col-lg-5 col-md-6 col-sm-8 mx-auto">
-    <h2 class="text-center mb-3">Sign in</h2>
+  <form id="signupForm" class="col-lg-5 col-md-6 col-sm-8 mx-auto">
+    <h2 class="text-center mb-3">Create Account</h2>
 
-    <div id="signinError" class="alert alert-danger d-none" role="alert"></div>
+    <div id="signupError" class="alert alert-danger d-none" role="alert"></div>
+    <div id="signupOK" class="alert alert-success d-none" role="alert"></div>
 
     <div class="mb-3">
       <label for="email" class="form-label">Email address</label>
-      <input name="email" required type="email" class="form-control" id="email" autocomplete="username" />
+      <input name="email" id="email" type="email" class="form-control" required autocomplete="username" />
     </div>
 
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input name="password" required minlength="6" type="password" class="form-control" id="password" autocomplete="current-password" />
+      <input name="password" id="password" type="password" minlength="6" class="form-control" required autocomplete="new-password" />
     </div>
 
-    <button type="submit" class="btn btn-outline-primary w-100">Submit</button>
+    <button type="submit" class="btn btn-outline-primary w-100">Sign Up</button>
   </form>
 </div>
+
+<!-- external JS -->
+<script type="module" src="{{ url_for('static', filename='signup_page_reach.js') }}"></script>
 {% endblock %}
