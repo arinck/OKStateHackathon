@@ -1,6 +1,7 @@
 // Wait for the DOM to finish loading
 document.addEventListener("DOMContentLoaded", () => {
-    const generateBtn = document.getElementById("generateBtn");
+    const generateBtn = document.getElementById("createBtn");
+    const roomName = document.getElementById("roomName");
     const joinBtn = document.getElementById("joinBtn");
     const joinIdInput = document.getElementById("joinId");
 
