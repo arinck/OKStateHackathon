@@ -1,3 +1,32 @@
+import { generateRoomID } from "./gen_room_id";
+
+async function room_exists(roomID){
+    const r = await fetch(`/api/rooms/${roomID}/exists`);
+    if (!r.ok) throw new Error("Failed to check room");
+    const { exists } = await r.json();
+    return exists;
+}
+
+async function insert_room(roomName, ownerID, roomID){
+    const r = await fetch("/api/room_create", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ roomName, ownerID, roomID })
+    });
+    if (!r.ok) throw new Error("Failed to create room");
+    return r.json();
+}
+
+async function getUserID(){
+    const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+    });
+    const payload = await res.json().catch(() => ({}));
+    return payload;
+}
+
 // Wait for the DOM to finish loading
 document.addEventListener("DOMContentLoaded", () => {
     const generateBtn = document.getElementById("createBtn");
@@ -17,6 +46,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Generate QR Code when button is clicked
     generateBtn.addEventListener("click", () => {
         qrContainer.innerHTML = ""; // clear any previous QR code
+        let roomID;
+        do {
+            roomID = generateRoomID();
+        } while (room_exists(roomID));
+        // Add the room to the DB
+        const payloadYes = getUserID();
+        insert_room(roomName, payloadYes.user_id, roomID);
 
         // Generate a new QR code using QRCode.js
         new QRCode(qrContainer, {

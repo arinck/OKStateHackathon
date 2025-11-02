@@ -112,3 +112,23 @@ def register_routes(app):
 
         session['user_id'] = user_id
         return jsonify({"ok": True, "user_id": user_id}), 200
+
+    @app.route('/api/rooms/<int:room_id>/exists', methods=['GET'])
+    def api_room_exists(room_id):
+        exists = room_exists(room_id)  # call your db_accessor function
+        return jsonify({'exists': exists}), 200
+
+    @app.route('/api/room_create', methods=['POST'])
+    def api_room_create():
+        data = request.get_json(force=True)
+        room_name = data.get("roomName")
+        owner_id = data.get("ownerID")
+        room_id = data.get("roomID")
+
+        try:
+            insert_room(room_name, owner_id, room_id)  # call your Python DB function
+            return jsonify({"ok": True, "message": "Room created successfully"}), 201
+        except Exception as e:
+            print("Error inserting room:", e)
+            return jsonify({"ok": False, "error": str(e)}), 500
+
