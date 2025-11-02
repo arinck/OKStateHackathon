@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     qrContainer.innerHTML = ""; // clear previous QR code if any
 
     new QRCode(qrContainer, {
-        text: `http://127.0.0.1:5000/login_linked?roomId=${roomID}`,
+        text: `http://45.76.235.122/login_linked?roomId=${roomID}`,
         width: 200,
         height: 200,
     });

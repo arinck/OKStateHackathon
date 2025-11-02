@@ -8,7 +8,7 @@ client_id = '8653jhwbrdmfzw'
 client_secret = 'WPL_AP1.eOHOob6wXHNOn5oc.P6Wnpg=='
 
 #This redirect link needs to be changed once it is not local hosted and added to linked in settings
-redirect_uri = 'http://127.0.0.1:5000/callback' 
+redirect_uri = 'http://45.76.235.122/callback' 
 scope = ['openid', 'profile', 'email']
 
 authorization_base_url = 'https://www.linkedin.com/oauth/v2/authorization'
