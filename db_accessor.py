@@ -62,3 +62,32 @@ def validate_user(email, password):
     else:
         # No user with the given email exists, return -1
         return -1
+    
+def insert_room(room_name, owner_id, room_password):
+    # Establish database connection
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        INSERT OR IGNORE INTO rooms (room_name, owner_id , room_password)
+        VALUES (?, ?, ?);
+    """, (room_name, owner_id , room_password))
+
+    conn.commit()
+    conn.close()
+
+
+
+# Need an accessor for rooms that returns true if the room_id exists, false if not
+def room_exists(room_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT room_id FROM rooms WHERE room_id = ?", (room_id,))
+    room = cur.fetchone()
+    conn.close()
+    if room:
+        return True
+    else:
+        return False
+
