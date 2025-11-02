@@ -28,7 +28,10 @@ form?.addEventListener('submit', async (e) => {
     }
     show(okBox, `Account created`);
     form.reset();
-  } catch {
+    window.location.href = '/'; 
+  }catch {
     show(errBox, 'Network error');
   }
+  
+
 });

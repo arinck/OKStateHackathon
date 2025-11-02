@@ -22,5 +22,10 @@
   </form>
 </div>
 
+<div class="text-center mt-3">
+  <p class="mb-0">Don’t have an account?</p>
+  <a href="{{ url_for('signup_reach') }}" class="btn btn-link">Create one here</a>
+</div>
+
 <script type="module" src="{{ url_for('static', filename='login_page_reach.js') }}"></script>
 {% endblock %}
