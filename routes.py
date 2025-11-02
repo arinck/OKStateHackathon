@@ -2,8 +2,7 @@ from flask import render_template, Flask, redirect, request, session, url_for
 from requests_oauthlib import OAuth2Session
 import os
 import requests
-from util import  redirect_uri, scope, authorization_base_url, token_url
-from secretVars import client_id, client_secret
+from util import  client_id, client_secret, redirect_uri, scope, authorization_base_url, token_url
 
 #Variables to paste into 'secretVars.py'
 # secretKey = 'your-secret-key' 
