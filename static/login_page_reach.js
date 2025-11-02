@@ -106,9 +106,8 @@ form?.addEventListener('submit', async (e) => {
     createRoom(roomName, payload.user_id);
 
     // redirect to home (or another route)
-    setTimeout(() => {
-      window.location.href = '/room?room_id=defultRoom&viewer=creator';
-    }, 1000);
+    window.location.href = '/room?room_id=defultRoom&viewer=creator';
+    
 
   } catch {
     show(errBox, 'Network error, please try again.');

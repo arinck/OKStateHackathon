@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const enteredId = joinIdInput.value.trim();
         if (enteredId) {
             console.log("Join ID entered:", enteredId);
+            window.location.href = `/login_linked?roomId=${enteredId}&viewer=creator`;
         } else {
             console.log("No ID entered.");
         }

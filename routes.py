@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, session, url_for, jsonify
+from flask import render_template, redirect, request, session, url_for, jsonify, abort
 from requests_oauthlib import OAuth2Session
 import requests
 from util import client_id, client_secret, redirect_uri, scope, authorization_base_url, token_url
@@ -13,6 +13,9 @@ def register_routes(app):
     @app.route('/room')
     def room():
         room_id = request.args.get('room_id')
+        if not room_exists(room_id):
+            abort(404, description="Room not found")
+
         viewer = request.args.get('viewer')
         users = get_entries_by_room(room_id)
         room_name = get_roomname(room_id)
