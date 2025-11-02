@@ -2,7 +2,7 @@ from flask import render_template, redirect, request, session, url_for, jsonify
 from requests_oauthlib import OAuth2Session
 import requests
 from util import client_id, client_secret, redirect_uri, scope, authorization_base_url, token_url
-from db_accessor import get_connection, insert_user, validate_user  # your existing accessors
+from db_accessor import get_connection, insert_user, validate_user, room_exists, insert_room  # your existing accessors
 
 def register_routes(app):
     @app.route('/')
@@ -113,9 +113,11 @@ def register_routes(app):
         session['user_id'] = user_id
         return jsonify({"ok": True, "user_id": user_id}), 200
 
-    @app.route('/api/rooms/<int:room_id>/exists', methods=['GET'])
-    def api_room_exists(room_id):
-        exists = room_exists(room_id)  # call your db_accessor function
+    @app.route('/api/room_exists', methods=['POST'])
+    def api_room_exists():
+        data = request.get_json(force=True)
+        roomID = data.get("roomID")
+        exists = room_exists(roomID)  # call your db_accessor function
         return jsonify({'exists': exists}), 200
 
     @app.route('/api/room_create', methods=['POST'])
