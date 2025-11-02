@@ -3,6 +3,8 @@ from routes import register_routes  # Import the register_routes function from r
 from schema import run_shchema
 from db_accessor import insert_user , get_user , validate_user
 app = Flask(__name__)
+#required for linkedin APi
+app.secret_key = 'your-secret-key'
 
 # Register the routes with the Flask app
 register_routes(app)
