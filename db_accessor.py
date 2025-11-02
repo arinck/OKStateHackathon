@@ -76,6 +76,9 @@ def insert_room(room_name, owner_id, room_password):
     conn.commit()
     conn.close()
 
+    
+
+
 
 
 # Need an accessor for rooms that returns true if the room_id exists, false if not
@@ -129,18 +132,28 @@ def get_entries_by_room(room_id):
     
     return result
 
+# def get_roomname(room_id):
+#     conn = get_connection()
+#     cur = conn.cursor()
+
+#     cur.execute('''
+#     SELECT room_name
+#     FROM rooms
+#     WHERE room_id = ?;
+#     ''', (room_id,))
+
+#     roomname = cur.fetchone()
+
+#     conn.close()
+
+#     return roomname[0]
+
+# AI coded Eli's work
 def get_roomname(room_id):
     conn = get_connection()
     cur = conn.cursor()
-
-    cur.execute('''
-    SELECT room_name
-    FROM rooms
-    WHERE room_id = ?;
-    ''', (room_id,))
-
-    roomname = cur.fetchone()
-
+    cur.execute("SELECT room_name FROM rooms WHERE room_id = ?", (room_id,))
+    row = cur.fetchone()
     conn.close()
-
-    return roomname[0]
+    # Return None when not found instead of indexing into None
+    return row[0] if row else None
