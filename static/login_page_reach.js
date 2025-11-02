@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (requestedRoomName) {
         try {
           const roomID = await createRoom(requestedRoomName, payload.user_id);
-          location.href = `/room?room_id=${encodeURIComponent(roomID)}&viewer=creator`;
+          location.href = `/room?room_id=${roomID}&viewer=creator`;
           return;
         } catch (err) {
           show(errBox, `Failed to create room: ${err.message}`);

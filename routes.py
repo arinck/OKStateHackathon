@@ -10,7 +10,8 @@ from db_accessor import (
     validate_user,
     insert_room,
     room_exists,
-    insert_entry
+    insert_entry,
+    get_room_id
 )
 
 def register_routes(app):
@@ -21,13 +22,14 @@ def register_routes(app):
 
     @app.route('/room')
     def room():
-        room_id = (request.args.get('room_id') or '').strip()
+        room_pawword = (request.args.get('room_id') or '').strip()
         viewer = (request.args.get('viewer') or '').strip()
 
         # no validation filter here anymore
+        room_id = get_room_id(room_pawword)
         room_name = get_roomname(room_id)
         if not room_name:
-            return render_template('room_not_found.html', room_id=room_id), 404
+            abort(404, description="Room not ffffffound")
 
         users = get_entries_by_room(room_id) or []
         return render_template(

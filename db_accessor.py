@@ -158,3 +158,13 @@ def get_roomname(room_id):
     conn.close()
     # Return None when not found instead of indexing into None
     return row[0] if row else None
+
+# Input is room_password, output is the room_id
+def get_room_id(room_password):
+    conn = get_connection()
+    cur = conn.cursor() 
+    cur.execute("SELECT room_id FROM rooms where room_password = ?" , (room_password,))
+    row = cur.fetchone()
+    conn.close()
+    
+    return row[0] if row else None
