@@ -1,115 +1,93 @@
-const form   = document.getElementById('loginForm');
-const errBox = document.getElementById('loginError');
-const okBox  = document.getElementById('loginOK');
+// static/login.js
+document.addEventListener("DOMContentLoaded", () => {
+  const form   = document.getElementById("loginForm");
+  const errBox = document.getElementById("loginError");
+  const okBox  = document.getElementById("loginOK");
 
-function generateRoomID() {
-    let arr = [];
-    let capitalArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
-        "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y",
-        "Z"
-    ];
-    let lowercaseArr = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
-        "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y",
-        "z"
-    ];
-    let numbersArr = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    let specialArr = ["!", "\"", "#", "$", "%", "&", "\'", "(", ")", "*",
-        "+", "`", "-",".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", 
-        "_", ",", "{", "|", "}", "~"];
-    for (let i = 0; i < 6; i++) {
-        let includes = true;
-        let passChar;
-        while (includes){
-            includes = false;
-            // n will be an integer in 33-126 which are all printable
-            //  ASCII characters
-            passChar = String.fromCharCode(Math.floor(((Math.random()*100) % 93) + 33));
-            if (!true && capitalArr.includes(passChar)){
-                includes = true;
-            }
-            if (!true && lowercaseArr.includes(passChar)){
-                includes = true;
-            }
-            if (!true && numbersArr.includes(passChar)){
-                includes = true;
-            }
-            if (!false && specialArr.includes(passChar)){
-                includes = true;
-            }
-        }
-        arr.push(passChar);
-    }
-    return arr.join("");
-}
+  const qs = new URLSearchParams(location.search);
+  const nextAfterLogin = qs.get("next") || "/";
+  const requestedRoomName = (qs.get("roomName") || "").trim();
 
-async function room_exists(roomID){
-    const res = await fetch(`/api/room_exists`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ roomID })
-    });
-    if (!res.ok) throw new Error("Failed to check if room exists");
-    const exists = await res.json();
-    return exists;
-}
-
-async function insert_room(roomName, ownerID, roomID){
-    const res = await fetch("/api/room_create", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ roomName, ownerID, roomID })
-    });
-    if (!res.ok) throw new Error("Failed to create room");
-    return res.json();
-}
-
-function createRoom(roomName, userID){
-  let roomID;
-  do {
-    roomID = generateRoomID();
-    console.log(roomID);
-  } while (room_exists(roomID).exists);
-  // Add the room to the DB
-  insert_room(roomName, userID, roomID);
-}
-
-function show(el, msg){ el.textContent = msg; el.classList.remove('d-none'); }
-function hide(el){ el.classList.add('d-none'); el.textContent = ''; }
-
-
-// This needs to be turned into a function and passed roomName
-//    from landing.
-form?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  hide(errBox); hide(okBox);
-
-  const data = Object.fromEntries(new FormData(form).entries());
-  data.email = (data.email || '').trim().toLowerCase();
-
-  try {
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    const payload = await res.json().catch(() => ({}));
-
-    if (!res.ok || !payload.ok) {
-      show(errBox, payload.error || `Login failed (${res.status})`);
-      return;
-    }
-
-    // show success briefly
-    show(okBox, `Welcome back! Redirecting...`);
-    form.reset();
-
-    createRoom(roomName, payload.user_id);
-
-    // redirect to home (or another route)
-    window.location.href = '/room?room_id=defultRoom&viewer=creator';
-    
-
-  } catch {
-    show(errBox, 'Network error, please try again.');
+  // URL-safe Base62 ID
+  const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  function generateRoomID(len = 6) {
+    let out = "";
+    for (let i = 0; i < len; i++) out += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+    return out;
   }
+
+  async function apiPOST(path, body) {
+    const res = await fetch(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body || {})
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    return data;
+  }
+
+  async function roomExists(roomID) {
+    const { exists } = await apiPOST("/api/room_exists", { roomID });
+    return exists;
+  }
+
+  async function uniqueRoomID() {
+    while (true) {
+      const candidate = generateRoomID();
+      if (!(await roomExists(candidate))) return candidate;
+    }
+  }
+
+  async function createRoom(roomName, ownerID) {
+    const roomID = await uniqueRoomID();
+    await apiPOST("/api/room_create", { roomName, ownerID, roomID });
+    return roomID;
+  }
+
+  function show(el, msg) { el.textContent = msg; el.classList.remove("d-none"); }
+  function hide(el) { el.classList.add("d-none"); el.textContent = ""; }
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    hide(errBox); hide(okBox);
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.email = (data.email || "").trim().toLowerCase();
+
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      const payload = await res.json().catch(() => ({}));
+
+      if (!res.ok || !payload.ok) {
+        show(errBox, payload.error || `Login failed (${res.status})`);
+        return;
+      }
+
+      show(okBox, "Signed in. Redirecting…");
+      form.reset();
+
+      // If this login was triggered by "Create Room", finish that flow
+      if (requestedRoomName) {
+        try {
+          const roomID = await createRoom(requestedRoomName, payload.user_id);
+          location.href = `/room?room_id=${encodeURIComponent(roomID)}&viewer=creator`;
+          return;
+        } catch (err) {
+          show(errBox, `Failed to create room: ${err.message}`);
+          return;
+        }
+      }
+
+      // Otherwise go to next or home
+      location.href = nextAfterLogin;
+
+    } catch (err) {
+      show(errBox, `Network error: ${err.message || "try again"}`);
+    }
+  });
 });

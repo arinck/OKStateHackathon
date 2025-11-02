@@ -2,29 +2,44 @@ from flask import render_template, redirect, request, session, url_for, jsonify,
 from requests_oauthlib import OAuth2Session
 import requests
 from util import client_id, client_secret, redirect_uri, scope, authorization_base_url, token_url
-from db_accessor import get_roomname , get_connection,get_entries_by_room, insert_user, validate_user, insert_room, room_exists # your existing accessors
+from db_accessor import (
+    get_roomname,
+    get_connection,
+    get_entries_by_room,
+    insert_user,
+    validate_user,
+    insert_room,
+    room_exists,
+)
 
 def register_routes(app):
+
     @app.route('/')
     def index():
         return render_template('index.html')
 
-    #Will need to build dynamic builder that creates new rooms with their ids appended
     @app.route('/room')
     def room():
-        room_id = request.args.get('room_id')
-        if not room_exists(room_id):
-            abort(404, description="Room not found")
+        room_id = (request.args.get('room_id') or '').strip()
+        viewer = (request.args.get('viewer') or '').strip()
 
-        viewer = request.args.get('viewer')
-        users = get_entries_by_room(room_id)
+        # no validation filter here anymore
         room_name = get_roomname(room_id)
-        return render_template('room.html', room_id=room_id, viewer=viewer, users = users, room_name = room_name)
+        if not room_name:
+            return render_template('room_not_found.html', room_id=room_id), 404
 
+        users = get_entries_by_room(room_id) or []
+        return render_template(
+            'room.html',
+            room_id=room_id,
+            viewer=viewer,
+            users=users,
+            room_name=room_name
+        )
 
     @app.route('/login_linked')
     def login():
-        room_id = request.args.get('roomId')  # e.g., /login_linked?roomId=123
+        room_id = request.args.get('roomId')
         if room_id:
             session['room_id'] = room_id
         linkedin = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=scope)
@@ -57,12 +72,9 @@ def register_routes(app):
         session['oauth_token'] = token_json
 
         linkedin = OAuth2Session(client_id, token=token_json)
-        r = linkedin.get('https://api.linkedin.com/v2/userinfo')
-        user_info = r.json()
+        _ = linkedin.get('https://api.linkedin.com/v2/userinfo').json()
 
-        room_id = session.get('room_id')  # Retrieve roomId here
-        print("Room ID:", room_id)
-        print(user_info.get('email'))
+        room_id = session.get('room_id')
         return redirect(url_for('room', room_id=room_id, viewer='scanner'))
 
     @app.post('/api/signup')
@@ -72,7 +84,6 @@ def register_routes(app):
         lname = (data.get('lname') or '').strip()
         email = (data.get('email') or '').strip().lower()
         password = data.get('password') or ''
-
         if not (fname and lname and email and len(password) >= 6):
             return jsonify({"ok": False, "error": "Invalid payload"}), 400
 
@@ -112,24 +123,33 @@ def register_routes(app):
         session['user_id'] = user_id
         return jsonify({"ok": True, "user_id": user_id}), 200
 
-    @app.route('/api/room_exists', methods=['POST'])
+    @app.get('/api/user_id')
+    def api_user_id():
+        uid = session.get('user_id')
+        if not uid:
+            return jsonify({"ok": False, "error": "Not authenticated"}), 401
+        return jsonify({"ok": True, "user_id": uid}), 200
+
+    @app.post('/api/room_exists')
     def api_room_exists():
-        data = request.get_json(force=True)
-        roomID = data.get("roomID")
-        exists = room_exists(roomID)  # call your db_accessor function
-        return jsonify({'exists': exists}), 200
+        data = request.get_json(silent=True) or {}
+        roomID = (data.get("roomID") or "").strip()
+        exists = bool(room_exists(roomID))
+        return jsonify({"exists": exists}), 200
 
-    @app.route('/api/room_create', methods=['POST'])
+    @app.post('/api/room_create')
     def api_room_create():
-        data = request.get_json(force=True)
-        room_name = data.get("roomName")
-        owner_id = data.get("ownerID")
-        room_id = data.get("roomID")
+        data = request.get_json(silent=True) or {}
+        room_name = (data.get("roomName") or "").strip()
+        owner_id  = data.get("ownerID")
+        room_id   = (data.get("roomID") or "").strip()
 
-        try:
-            insert_room(room_name, owner_id, room_id)  # call your Python DB function
-            return jsonify({"ok": True, "message": "Room created successfully"}), 201
-        except Exception as e:
-            print("Error inserting room:", e)
-            return jsonify({"ok": False, "error": str(e)}), 500
+        if not room_name or not owner_id or not room_id:
+            return jsonify({"ok": False, "error": "roomName, ownerID, roomID required"}), 400
+        if session.get("user_id") != owner_id:
+            return jsonify({"ok": False, "error": "owner mismatch"}), 403
+        if room_exists(room_id):
+            return jsonify({"ok": False, "error": "room already exists"}), 409
 
+        insert_room(room_name, owner_id, room_id)
+        return jsonify({"ok": True, "room_id": room_id}), 201
