@@ -11,7 +11,8 @@ from db_accessor import (
     insert_room,
     room_exists,
     insert_entry,
-    get_room_id
+    get_room_id,
+    get_room_password
 )
 
 def register_routes(app):
@@ -43,7 +44,8 @@ def register_routes(app):
 
     @app.route('/login_linked')
     def login():
-        room_id = request.args.get('roomId')
+        room_Password = request.args.get('roomId')
+        room_id = get_room_id(room_Password)
         if not room_exists(room_id):
             abort(404, description="Room not found")
 
@@ -82,6 +84,7 @@ def register_routes(app):
         user_info = r.json()
 
         room_id = session.get('room_id')  # Retrieve roomId here
+        room_pass = get_room_password(room_id)
         print("Hello", user_info.get('email'))
         print("Room ID:", room_id)
         print(user_info.get('email'))
@@ -92,7 +95,7 @@ def register_routes(app):
 
 
         insert_entry(firstname, lastname, url_image, room_id)
-        return redirect(url_for('room', room_id=room_id, viewer='scanner'))
+        return redirect(url_for('room', room_id=room_pass, viewer='scanner'))
 
     @app.post('/api/signup')
     def api_signup():
