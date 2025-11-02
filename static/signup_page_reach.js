@@ -1,4 +1,4 @@
-const form = document.getElementById('signupForm');
+const form   = document.getElementById('signupForm');
 const errBox = document.getElementById('signupError');
 const okBox  = document.getElementById('signupOK');
 
@@ -26,10 +26,9 @@ form?.addEventListener('submit', async (e) => {
       show(errBox, payload.error || `Signup failed (${res.status})`);
       return;
     }
-
-    show(okBox, `Account created successfully (User ID: ${payload.user_id}).`);
+    show(okBox, `Account created`);
     form.reset();
   } catch {
-    show(errBox, 'Network error, please try again.');
+    show(errBox, 'Network error');
   }
 });
