@@ -17,3 +17,11 @@ def register_routes(app):
     @app.route('/room')
     def room(room_id):
         return render_template('room.html')
+
+    @app.route('/login_page')
+    def login_page():
+        return render_template('login_page_reach.html')
+    
+    @app.route('/signup_page')
+    def signup_page():
+        return render_template('signup_page_reach.html')
