@@ -57,7 +57,6 @@ def register_routes(app):
         print(user_info.get('email'))
         return render_template('room.html')
 
-    # ---------- API ROUTES ----------
     @app.post('/api/signup')
     def api_signup():
         data = request.get_json(silent=True) or request.form or {}
