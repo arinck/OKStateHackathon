@@ -8,6 +8,10 @@ def run_shchema():
     # Enable foreign key support in SQLite
     cursor.execute("PRAGMA foreign_keys = ON;")
 
+    cursor.execute('DROP TABLE IF EXISTS entries;')
+    cursor.execute('DROP TABLE IF EXISTS rooms;')
+    cursor.execute('DROP TABLE IF EXISTS users;')
+
     # Create tables
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
@@ -32,9 +36,13 @@ def run_shchema():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS entries (
         entry_id INTEGER PRIMARY KEY,
+        sub TEXT,
+        email TEXT,
+        local TEXT,
         firstname TEXT,
         lastname TEXT,
-        url TEXT,
+        url_image TEXT,
+        url_linkedin TEXT,
         room_id INTEGER,
         FOREIGN KEY (room_id) REFERENCES rooms(room_id)
     );
