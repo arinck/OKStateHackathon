@@ -128,3 +128,19 @@ def get_entries_by_room(room_id):
     result = [[entry[0], entry[1], entry[2], entry[3]] for entry in entries]
     
     return result
+
+def get_roomname(room_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute('''
+    SELECT room_name
+    FROM rooms
+    WHERE room_id = ?;
+    ''', (room_id,))
+
+    roomname = cur.fetchone()
+
+    conn.close()
+
+    return roomname[0]

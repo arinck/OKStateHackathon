@@ -248,3 +248,17 @@ thead.sticky-top th {
 #rowActionMenu button:last-child {
   margin-bottom: 0;
 }
+
+/* Professional table look in dark scheme */
+.row-fixed { height: 88px; }               /* consistent row height */
+.avatar-cell { min-width: 112px; }          /* stable avatar column */
+.table td, .table th { vertical-align: middle; }
+
+/* Softer borders in dark mode using your vars */
+.table-dark > :not(caption) > * > * {
+  border-color: var(--bs-border-color-translucent);
+}
+
+/* Card surface to match your theme */
+.card { background: var(--bs-body-bg); }
+
