@@ -1,37 +1,28 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>REACH</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REACH</title>
 
-        <!-- Bootstrap, icons, and style.css -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-        <link href="/static/styles.css" rel="stylesheet"> <!-- style.css goes last to prevent overriding -->
-    </head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+  </head>
+  <body class="container py-4">
 
-    <body>
+    <!-- Shared header/nav lives here -->
+    <nav class="mb-4 d-flex gap-3">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('room') }}">Room</a>
+    </nav>
 
-    <!-- Row 1 -->
-    <div class="row">
-        <input type="text" id="roomName" placeholder="Enter Room Name" />
-        <button id="createBtn">Create Room</button>
-    </div>
+    <!-- Route-specific body -->
+    {% block content %}{% endblock %}
 
-    <!-- Row 2 -->
-    <div class="row mt-4">
-        <input type="text" id="joinId" placeholder="Enter Room ID" />
-        <button id="joinBtn">Join From ID</button>
-    </div>
-
-    
-    <!-- QRCode.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-
-    <!-- Link your landing.js -->
-    <script src="../static/landing.js"></script>
-
-</body>
+    <script src="{{ url_for('static', filename='landing.js') }}"></script>
+  </body>
 </html>
-
