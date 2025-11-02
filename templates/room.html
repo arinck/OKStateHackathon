@@ -13,6 +13,7 @@
   </header>
 
   <main>
+    {% if viewer == "scanner" %}
     <div class="table-wrap">
       <table aria-label="Attendees">
         <thead>
@@ -23,28 +24,33 @@
             <th scope="col">PNG</th>
           </tr>
         </thead>
-        <tbody id="rows">
-          <!-- Rows are injected here -->
+        <tbody>
+          {% if users %}
+            {% for user in users %}
+              <tr>
+                <td>{{ user[0] }}</td>
+                <td>{{ user[1] }}</td>
+                <td>
+                  <a href="{{ user[3] }}" target="_blank">
+                    <button class="connect-btn" type="button">Connect</button>
+                  </a>
+                </td>
+                <td>
+                  <img class="avatar" src="{{ user[2] }}" alt="PNG" />
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="4">No attendees yet.</td>
+            </tr>
+          {% endif %}
         </tbody>
       </table>
-      <div id="emptyState" class="empty" hidden>No attendees yet.</div>
     </div>
+    {% else %}
+     
+    {% endif %}
   </main>
 
-  <!-- Optional: a template used for fast row creation -->
-  <template id="rowTemplate">
-    <tr>
-      <td class="fn"></td>
-      <td class="ln"></td>
-      <td>
-        <button class="connect-btn" type="button">Connect</button>
-      </td>
-      <td>
-        <img class="avatar" alt="PNG" />
-      </td>
-    </tr>
-  </template>
-
-    <!-- Link your landing.js -->
-    <script src="../static/room.js"></script>
 </body>

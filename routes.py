@@ -14,7 +14,13 @@ def register_routes(app):
     def room():
         room_id = request.args.get('room_id')
         viewer = request.args.get('viewer')
-        return render_template('room.html', room_id=room_id, viewer=viewer)
+        users = [
+            ["John", "Doe", "https://media.licdn.com/dms/image/v2/D5603AQGuUN9zCBq_Bw/profile-displayphoto-shrink_100_100/B56ZU.vyfmHsAc-/0/1740514471145?e=1763596800&v=beta&t=zOSQQpL3yr-wZFeh5qJuKTqYh4k8KBd-gfwj1rE1JJM", "https://www.linkedin.com/in/efren-llanes/"],
+            ["Jane", "Smith", "https://media.licdn.com/dms/image/v2/D5603AQEQ56VPxSGepQ/profile-displayphoto-shrink_100_100/B56ZYW.MtiHEBs-/0/1744142127020?e=1763596800&v=beta&t=Qdr1lV9Ey2SXsK9iJuDFNM6l40dzk7UjvTEWW2YlZgw", "https://www.linkedin.com/in/raamia/"],
+            ["Alice", "Johnson", "https://media.licdn.com/dms/image/v2/D4E03AQHED5cnaiA-zA/profile-displayphoto-shrink_100_100/B4EZbE_zbzHwAY-/0/1747061782636?e=1763596800&v=beta&t=wj8YluDJwWBt7XWfW8IqEKtjSYVajE7tTldGw8y9Tw8", "https://www.linkedin.com/in/alexsanfilippo/"]
+        ]
+
+        return render_template('room.html', room_id=room_id, viewer=viewer, users = users)
 
 
     @app.route('/login_linked')
