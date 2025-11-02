@@ -2,18 +2,32 @@
 {% block title %}Home · REACH{% endblock %}
 
 {% block content %}
-  <!-- Row 1 -->
-  <div class="row mb-3">
-    <input type="text" id="roomName" placeholder="Enter Room Name" class="form-control w-auto d-inline-block" />
-    <button id="createBtn" class="btn btn-outline-primary ms-2">Create Room</button>
+<div class="container py-4 text-center">
+
+  <!-- Create Room Section -->
+  <div class="card bg-dark text-light mb-4 shadow-sm border-secondary">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Create a Room</h5>
+      <div class="d-flex justify-content-center align-items-center">
+        <input type="text" id="roomName" placeholder="Enter Room Name" class="form-control w-50" />
+        <button id="createBtn" class="btn btn-outline-primary ms-3">Create Room</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Row 2 -->
-  <div class="row">
-    <input type="text" id="joinId" placeholder="Enter Room ID" class="form-control w-auto d-inline-block" />
-    <button id="joinBtn" class="btn btn-outline-secondary ms-2">Join From ID</button>
+  <!-- Join Room Section -->
+  <div class="card bg-dark text-light shadow-sm border-secondary">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Join a Room</h5>
+      <div class="d-flex justify-content-center align-items-center">
+        <input type="text" id="joinId" placeholder="Enter Room ID" class="form-control w-50" />
+        <button id="joinBtn" class="btn btn-outline-secondary ms-3">Join From ID</button>
+      </div>
+    </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-  <script src="{{ url_for('static', filename='landing.js') }}"></script>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="{{ url_for('static', filename='landing.js') }}"></script>
 {% endblock %}
