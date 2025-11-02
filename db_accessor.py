@@ -90,4 +90,41 @@ def room_exists(room_id):
         return True
     else:
         return False
+    
+def insert_entry(firstname, lastname, url_image, url_linkedin, room_id):
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    # Insert the new entry into the 'entries' table
+    cur.execute('''
+    INSERT INTO entries (firstname, lastname, url_image, url_linkedin, room_id)
+    VALUES (?, ?, ?, ?, ?);
+    ''', (firstname, lastname, url_image, url_linkedin, room_id))
+    
+    # Commit the transaction
+    conn.commit()
+    
+    # Close the connection
+    conn.close()
 
+
+def get_entries_by_room(room_id):
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    # Query to get firstname, lastname, url_image, url_linkedin for entries with a specific room_id
+    cur.execute('''
+    SELECT firstname, lastname, url_image, url_linkedin
+    FROM entries
+    WHERE room_id = ?;
+    ''', (room_id,))
+    
+    # Fetch all rows (results)
+    entries = cur.fetchall()
+    
+    conn.close()
+    
+    # Convert to a 2D array
+    result = [[entry[0], entry[1], entry[2], entry[3]] for entry in entries]
+    
+    return result
