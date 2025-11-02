@@ -2,7 +2,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const generateBtn = document.getElementById("createBtn");
     const roomName = document.getElementById("roomName");
-    const joinBtn = document.getElementById("joinBtn");
     const joinIdInput = document.getElementById("joinId");
 
     // Create a container for the QR code dynamically (if not already in HTML)
@@ -28,15 +27,4 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("QR Code generated!");
     });
 
-    // Log the Join ID value when the button is clicked
-    joinBtn.addEventListener("click", () => {
-        const enteredId = joinIdInput.value.trim();
-        if (enteredId) {
-            console.log("Join ID entered:", enteredId);
-            window.location.href = `/login_linked?roomId=${enteredId}`;
-
-        } else {
-            console.log("No ID entered.");
-        }
-    });
 });
