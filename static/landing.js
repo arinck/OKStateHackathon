@@ -36,7 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Generate QR Code when button is clicked
     generateBtn.addEventListener("click", () => {
         qrContainer.innerHTML = ""; // clear any previous QR code
-
+        let roomID;
+        do {
+            roomID = generateRoomID();
+        } while (room_exists(roomID));
+        // Add the room to the DB
+        // FIXME: Fix the ownerID value
+        insert_room(roomName, ownerID, roomID);
+        
         // Generate a new QR code using QRCode.js
         new QRCode(qrContainer, {
             text: "https://example.com", // Replace with your target URL or data
