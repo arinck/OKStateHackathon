@@ -1,4 +1,7 @@
 // static/login.js
+export var roomID;
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const form   = document.getElementById("loginForm");
   const errBox = document.getElementById("loginError");
@@ -8,13 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const nextAfterLogin = qs.get("next") || "/";
   const requestedRoomName = (qs.get("roomName") || "").trim();
 
-  // URL-safe Base62 ID
   const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  function generateRoomID(len = 6) {
-    let out = "";
-    for (let i = 0; i < len; i++) out += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
-    return out;
-  }
+
 
   async function apiPOST(path, body) {
     const res = await fetch(path, {
@@ -32,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return exists;
   }
 
-  async function uniqueRoomID() {
+   async function uniqueRoomID() {
     while (true) {
       const candidate = generateRoomID();
       if (!(await roomExists(candidate))) return candidate;
@@ -75,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (requestedRoomName) {
         try {
           const roomID = await createRoom(requestedRoomName, payload.user_id);
-          location.href = `/room?room_id=${encodeURIComponent(roomID)}&viewer=creator`;
+          location.href = `/room?room_id=${roomID}&viewer=creator`;
           return;
         } catch (err) {
           show(errBox, `Failed to create room: ${err.message}`);
@@ -90,4 +88,5 @@ document.addEventListener("DOMContentLoaded", () => {
       show(errBox, `Network error: ${err.message || "try again"}`);
     }
   });
+
 });
