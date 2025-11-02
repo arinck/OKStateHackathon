@@ -262,3 +262,24 @@ thead.sticky-top th {
 /* Card surface to match your theme */
 .card { background: var(--bs-body-bg); }
 
+.room-title {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.avatar-cell img {
+  transition: transform 0.2s ease;
+}
+.avatar-cell img:hover {
+  transform: scale(1.05);
+}
+
+.table td, .table th {
+  vertical-align: middle !important;
+}
+
+#qrcode canvas {
+  margin: 0 auto;
+  display: block;
+}

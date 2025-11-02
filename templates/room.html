@@ -1,55 +1,82 @@
-{% extends "base.html" %}
-{% block title %}Room · REACH{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 
-
-{% block content %}
-  <header>
-    <div class="room-title">
-      Room Name: <small id="roomName">{{room_name}}</small>
-      Room PassWord: <small id="roomName">{{password}}</small>
-
+{% extends "base.html" %} {% block title %}Room · REACH{% endblock %} {% block
+content %}
+<header class="mb-4 text-center">
+  {% if viewer == "creator" %}
+  <div class="container-sm text-end">
+    <div class="d-flex justify-content-center my-3">
+      <div id="qrcode" data-roomid="{{password}}"></div>
     </div>
+    <div
+      id="roomMeta"
+      data-current-room-id="{{ room_id }}"
+      data-current-viewer="{{ viewer }}"
+    ></div>
+  </div>
+  {% endif %}
+  <div class="room-title py-3 bg-secondary text-light rounded shadow-sm">
+    <h4 class="mb-1">
+      Room:
+      <span id="roomName" class="fw-semibold text-info">{{room_name}}</span>
+    </h4>
+    <p class="mb-0 small">
+      Password: <span class="text-warning">{{password}}</span>
+    </p>
   </div>
 </header>
 
-{% if viewer == "scanner" %}
-<!-- existing table view -->
-<div class="card shadow-lg border-0">
+<div class="card shadow border-0">
   <div class="card-body p-0">
     <div class="table-responsive">
-      <table class="table table-dark table-striped table-hover align-middle mb-0" style="table-layout:fixed;width:100%">
+      <table
+        class="table table-dark table-striped table-hover align-middle mb-0"
+        style="table-layout: fixed; width: 100%"
+      >
         <colgroup>
-          <col style="width:112px" />
-          <col style="width:38%" />
-          <col style="width:38%" />
-          <col style="width:12%" />
+          <col style="width: 112px" />
+          <col style="width: 38%" />
+          <col style="width: 38%" />
+          <col style="width: 12%" />
         </colgroup>
         <thead class="bg-dark sticky-top">
           <tr>
-            <th scope="col"></th>
-            <th scope="col" class="ps-3">First Name</th>
-            <th scope="col" class="ps-3">Last Name</th>
-            <th scope="col" class="text-center">Connect</th>
+            <th></th>
+            <th class="ps-3">First Name</th>
+            <th class="ps-3">Last Name</th>
+            <th class="text-center">Connect</th>
           </tr>
         </thead>
         <tbody>
-          {% if users %}
-            {% for user in users %}
-            <tr class="row-fixed">
-              <td class="p-0 avatar-cell">
-                <div class="ratio ratio-1x1">
-                  <img src="{{ user[2] }}" alt="" class="w-100 h-100 object-fit-cover rounded-start" />
-                </div>
-              </td>
-              <td class="ps-3">{{ user[0] }}</td>
-              <td class="ps-3">{{ user[1] }}</td>
-              <td class="text-center">
-                <a href="https://www.linkedin.com/search/results/all/?keywords={{ user[0] }}%20{{ user[1] }}&origin=GLOBAL_SEARCH_HEADER&sid=42%3B" target="_blank" class="btn btn-outline-info btn-sm px-3">Connect</a>
-              </td>
-            </tr>
-            {% endfor %}
-          {% else %}
-            <tr><td colspan="4" class="text-center text-secondary py-4">No attendees yet.</td></tr>
+          {% if users %} {% for user in users %}
+          <tr>
+            <td class="p-0 avatar-cell">
+              <div class="ratio ratio-1x1">
+                <img
+                  src="{{ user[2] }}"
+                  alt="profile"
+                  class="w-100 h-100 object-fit-cover rounded-start border border-secondary"
+                />
+              </div>
+            </td>
+            <td class="ps-3 text-capitalize">{{ user[0] }}</td>
+            <td class="ps-3 text-capitalize">{{ user[1] }}</td>
+            <td class="text-center">
+              <a
+                href="https://www.linkedin.com/search/results/all/?keywords={{ user[0] }}%20{{ user[1] }}&origin=GLOBAL_SEARCH_HEADER&sid=42%3B"
+                target="_blank"
+                class="btn btn-outline-info btn-sm px-3"
+              >
+                Connect
+              </a>
+            </td>
+          </tr>
+          {% endfor %} {% else %}
+          <tr>
+            <td colspan="4" class="text-center text-secondary py-4">
+              No attendees yet.
+            </td>
+          </tr>
           {% endif %}
         </tbody>
       </table>
@@ -57,28 +84,9 @@
   </div>
 </div>
 
-{% else %}
-<!-- creator view -->
-<div class="container-sm text-center">
-
-  <!-- QR area
-  <div id="qrArea" class="mt-4 d-flex flex-column align-items-center">
-    <div id="qrcode"></div>
-    <a id="qrLink" href="#" class="mt-2 small text-info text-decoration-underline d-none" target="_blank"></a>
-  </div> -->
-
-  <!-- Store the room ID in a data attribute -->
-<div id="qrcode" data-roomid="{{password}}"></div>
-
-
-  <!-- expose current meta for JS if needed -->
-  <div id="roomMeta"
-       data-current-room-id="{{ room_id }}"
-       data-current-viewer="{{ viewer }}"></div>
-</div>
-{% endif %}
-
-<!-- QRCode library and page script -->
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-<script type="module" src="{{ url_for('static', filename='room_create.js') }}"></script>
+<script
+  type="module"
+  src="{{ url_for('static', filename='room_create.js') }}"
+></script>
 {% endblock %}
