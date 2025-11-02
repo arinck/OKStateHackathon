@@ -1,0 +1,64 @@
+import sqlite3
+
+db_name = "database.db"
+
+def get_connection():
+    conn = sqlite3.connect(db_name)
+    return conn
+
+def insert_user(first_name, last_name, password, email):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT OR IGNORE INTO users (firstname, lastname, password, email)
+        VALUES (?, ?, ?, ?);
+    """, (first_name, last_name, password, email))
+    conn.commit()
+    conn.close()
+
+def get_user(user_id):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT user_id, firstname, lastname, email FROM users WHERE user_id = ?", (user_id,))
+    user = cur.fetchone()  # Fetch the first matching user
+    conn.close()
+    
+    if user:
+        # Return the user data as a dictionary
+        return {
+            'user_id': user[0],
+            'firstname': user[1],
+            'lastname': user[2],
+            'email': user[3]
+        }
+    else:
+        # If no user was found, return None
+        return None
+
+# Need a validate_user function that will take in an email and password combination and return the valid user ID or -1
+
+def validate_user(email, password):
+    # Establish database connection
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    # Query to fetch user by email
+    cur.execute("SELECT user_id, password FROM users WHERE email = ?", (email,))
+    user = cur.fetchone()  # Fetch the user with the matching email
+    
+    conn.close()
+    
+    if user:
+        stored_user_id = user[0]  # Extract user_id
+        stored_password = user[1]  # Extract stored hashed password
+        
+        # Compare the provided password with the stored hashed password
+        if stored_password == password:
+            # If the password is correct, return the user_id
+            return stored_user_id
+        else:
+            # Password doesn't match, return -1
+            return -1
+    else:
+        # No user with the given email exists, return -1
+        return -1
