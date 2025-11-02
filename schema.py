@@ -32,6 +32,9 @@ def run_shchema():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS entries (
         entry_id INTEGER PRIMARY KEY,
+        sub TEXT,
+        email TEXT,
+        local TEXT,
         firstname TEXT,
         lastname TEXT,
         url TEXT,
