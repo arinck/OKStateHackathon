@@ -1,56 +1,95 @@
-<body>
+{% extends "base.html" %}
+{% block title %}Room · REACH{% endblock %}
 
-  <header>
-    <div class="room-title">
-      Room Name: <small id="roomName">[dummy_value]</small>
+{% block content %}
+<header class="text-center mb-4">
+  <div class="p-3 rounded-3 border" style="background: var(--bs-secondary-bg-subtle)">
+    <h2 class="mb-1" style="color: var(--bs-primary-text-emphasis)">Room Details</h2>
+    <div class="text-secondary">
+      <strong>Room Name:</strong>
+      <span id="roomNameSpan" class="fw-normal">{{ room_name or "[dummy_value]" }}</span>
+      | <strong>Room ID:</strong> <span class="fw-normal">{{ room_id }}</span> |
+      <strong>Viewer:</strong> <span class="fw-normal">{{ viewer }}</span>
     </div>
-    <div class="room-title">
-      Room ID: <small id="roomName">{{ room_id }}</small>
-    </div>
-    <div class="viewer-name">
-      Viewer: <small id="viewerName">{{ viewer }}</small>
-    </div>
-  </header>
+  </div>
+</header>
 
-  <main>
-    {% if viewer == "scanner" %}
-    <div class="table-wrap">
-      <table aria-label="Attendees">
-        <thead>
+{% if viewer == "scanner" %}
+<!-- existing table view -->
+<div class="card shadow-lg border-0">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-dark table-striped table-hover align-middle mb-0" style="table-layout:fixed;width:100%">
+        <colgroup>
+          <col style="width:112px" />
+          <col style="width:38%" />
+          <col style="width:38%" />
+          <col style="width:12%" />
+        </colgroup>
+        <thead class="bg-dark sticky-top">
           <tr>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Connect</th>
-            <th scope="col">PNG</th>
+            <th scope="col"></th>
+            <th scope="col" class="ps-3">First Name</th>
+            <th scope="col" class="ps-3">Last Name</th>
+            <th scope="col" class="text-center">Connect</th>
           </tr>
         </thead>
         <tbody>
           {% if users %}
             {% for user in users %}
-              <tr>
-                <td>{{ user[0] }}</td>
-                <td>{{ user[1] }}</td>
-                <td>
-                  <a href="{{ user[3] }}" target="_blank">
-                    <button class="connect-btn" type="button">Connect</button>
-                  </a>
-                </td>
-                <td>
-                  <img class="avatar" src="{{ user[2] }}" alt="PNG" />
-                </td>
-              </tr>
+            <tr class="row-fixed">
+              <td class="p-0 avatar-cell">
+                <div class="ratio ratio-1x1">
+                  <img src="{{ user[2] }}" alt="" class="w-100 h-100 object-fit-cover rounded-start" />
+                </div>
+              </td>
+              <td class="ps-3">{{ user[0] }}</td>
+              <td class="ps-3">{{ user[1] }}</td>
+              <td class="text-center">
+                <a href="{{ user[3] }}" target="_blank" class="btn btn-outline-info btn-sm px-3">Connect</a>
+              </td>
+            </tr>
             {% endfor %}
           {% else %}
-            <tr>
-              <td colspan="4">No attendees yet.</td>
-            </tr>
+            <tr><td colspan="4" class="text-center text-secondary py-4">No attendees yet.</td></tr>
           {% endif %}
         </tbody>
       </table>
     </div>
-    {% else %}
-     
-    {% endif %}
-  </main>
+  </div>
+</div>
 
-</body>
+{% else %}
+<!-- creator view -->
+<div class="container-sm text-center">
+  <div class="row justify-content-center g-2">
+    <div class="col-auto">
+      <input
+        type="text"
+        id="newRoomName"
+        placeholder="Enter Room Name"
+        class="form-control"
+      />
+    </div>
+    <div class="col-auto">
+      <button id="createBtn" class="btn btn-outline-primary">Create Room</button>
+    </div>
+  </div>
+
+  <!-- QR area -->
+  <div id="qrArea" class="mt-4 d-flex flex-column align-items-center">
+    <div id="qrcode"></div>
+    <a id="qrLink" href="#" class="mt-2 small text-info text-decoration-underline d-none" target="_blank"></a>
+  </div>
+
+  <!-- expose current meta for JS if needed -->
+  <div id="roomMeta"
+       data-current-room-id="{{ room_id }}"
+       data-current-viewer="{{ viewer }}"></div>
+</div>
+{% endif %}
+
+<!-- QRCode library and page script -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script type="module" src="{{ url_for('static', filename='room_create.js') }}"></script>
+{% endblock %}
