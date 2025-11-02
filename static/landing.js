@@ -17,6 +17,16 @@ async function insert_room(roomName, ownerID, roomID){
     return r.json();
 }
 
+async function getUserID(){
+    const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+    });
+    const payload = await res.json().catch(() => ({}));
+    return payload;
+}
+
 // Wait for the DOM to finish loading
 document.addEventListener("DOMContentLoaded", () => {
     const generateBtn = document.getElementById("createBtn");
@@ -41,9 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
             roomID = generateRoomID();
         } while (room_exists(roomID));
         // Add the room to the DB
-        // FIXME: Fix the ownerID value
-        insert_room(roomName, ownerID, roomID);
-        
+        const payloadYes = getUserID();
+        insert_room(roomName, payloadYes.user_id, roomID);
+
         // Generate a new QR code using QRCode.js
         new QRCode(qrContainer, {
             text: "https://example.com", // Replace with your target URL or data
