@@ -2,7 +2,7 @@ from flask import render_template, redirect, request, session, url_for, jsonify
 from requests_oauthlib import OAuth2Session
 import requests
 from util import client_id, client_secret, redirect_uri, scope, authorization_base_url, token_url
-from db_accessor import get_roomname , get_connection,get_entries_by_room, insert_user, validate_user # your existing accessors
+from db_accessor import get_roomname , get_connection,get_entries_by_room, insert_user, validate_user, insert_room, room_exists # your existing accessors
 
 def register_routes(app):
     @app.route('/')
