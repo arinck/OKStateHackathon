@@ -66,20 +66,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      show(okBox, "Signed in. Redirecting…");
-      form.reset();
+      // show(okBox, "Signed in. Redirecting…");
+      // form.reset();
 
-      // If this login was triggered by "Create Room", finish that flow
-      if (requestedRoomName) {
-        try {
-          const roomID = await createRoom(requestedRoomName, payload.user_id);
-          location.href = `/room?room_id=${roomID}&viewer=creator`;
-          return;
-        } catch (err) {
-          show(errBox, `Failed to create room: ${err.message}`);
-          return;
-        }
-      }
+      // // If this login was triggered by "Create Room", finish that flow
+      // if (requestedRoomName) {
+      //   try {
+      //     const roomID = await createRoom(requestedRoomName, payload.user_id);
+      //     location.href = `/room?room_id=${roomID}&viewer=creator`;
+      //     return;
+      //   } catch (err) {
+      //     show(errBox, `Failed to create room: ${err.message}`);
+      //     return;
+      //   }
+      // }
 
       // Otherwise go to next or home
       location.href = nextAfterLogin;
