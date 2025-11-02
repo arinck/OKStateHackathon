@@ -31,7 +31,7 @@ form?.addEventListener('submit', async (e) => {
 
     // redirect to home (or another route)
     setTimeout(() => {
-      window.location.href = '/';
+      window.location.href = '/room?room_id=defultRoom&viewer=creator';
     }, 1000);
 
   } catch {
