@@ -9,9 +9,6 @@ def register_routes(app):
     def index():
         return render_template('index.html')
     
-    @app.route('/landing')
-    def landing():
-        return render_template('landing.html')
     
     #Will need to build dynamic builder that creates new rooms with their ids appended
     @app.route('/room')
