@@ -11,8 +11,11 @@ def register_routes(app):
 
     #Will need to build dynamic builder that creates new rooms with their ids appended
     @app.route('/room')
-    def room(room_id):
-        return render_template('room.html')
+    def room():
+        room_id = request.args.get('room_id')
+        viewer = request.args.get('viewer')
+        return render_template('room.html', room_id=room_id, viewer=viewer)
+
 
     @app.route('/login_linked')
     def login():
@@ -55,7 +58,7 @@ def register_routes(app):
         room_id = session.get('room_id')  # Retrieve roomId here
         print("Room ID:", room_id)
         print(user_info.get('email'))
-        return render_template('room.html')
+        return redirect(url_for('room', room_id=room_id, viewer='scanner'))
 
     # ---------- API ROUTES ----------
     @app.post('/api/signup')
